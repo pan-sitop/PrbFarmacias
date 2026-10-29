@@ -9,7 +9,7 @@ const NAV = [
       ["Introducción", "marco-teorico/introduccion.html"],
       ["Antecedentes", "marco-teorico/antecedentes.html"],
       ["Planteamiento del problema", "marco-teorico/planteamiento.html"],
-        ["Arbol de Problemas", "marco-teorico/arbol-problemas.html"],
+      ["Árbol de problemas", "marco-teorico/arbol-problemas.html"],
       ["Formulación del problema", "marco-teorico/formulacion.html"],
       ["Propósito de estudio", "marco-teorico/proposito.html"],
       ["Metodología", "marco-teorico/metodologia.html"],
@@ -32,7 +32,6 @@ const NAV = [
       ["Diagrama de casos de uso", "orientado-objetos/casos-uso.html"],
     ],
   },
-  { label: "Video", href: "video.html" },
   { label: "Contacto", href: "contacto.html" },
 ];
 
@@ -500,6 +499,23 @@ function initContact() {
     form.reset();
   });
 }
+function initMermaid() {
+  if (typeof mermaid !== "undefined") {
+    try {
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "neutral",
+        securityLevel: "loose",
+        flowchart: { useMaxWidth: true, htmlLabels: true },
+        gantt: { useMaxWidth: true }
+      });
+      mermaid.run({ querySelector: ".mermaid" });
+    } catch (e) {
+      console.error("Error al inicializar Mermaid:", e);
+    }
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderHeader();
   renderFooter();
@@ -507,4 +523,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initProducts();
   initInventory();
   initContact();
+  initMermaid();
 });

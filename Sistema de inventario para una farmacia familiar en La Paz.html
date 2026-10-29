@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sistema de inventario para una farmacia familiar en La Paz</title>
+<style>
+:root{--bg:#f6f7f4;--surface:#fff;--text:#1d2b27;--muted:#58675f;--accent:#0f766e;--line:#d9dfd8;--soft:#e4f1ee;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#111916;--surface:#18231f;--text:#e6eee9;--muted:#9fb0a7;--accent:#4fd1c0;--line:#2b3a35;--soft:#1d302b}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#111916;--surface:#18231f;--text:#e6eee9;--muted:#9fb0a7;--accent:#4fd1c0;--line:#2b3a35;--soft:#1d302b}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.65 Georgia,"Times New Roman",serif}
+header.hero{padding:56px 20px 40px;max-width:900px;margin:0 auto}
+.hero small{font:600 13px/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:14px 0}
+.hero p{color:var(--muted);margin:0}
+nav{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;padding:0 12px}
+nav a{display:inline-block;padding:14px 10px;font:500 14px system-ui,sans-serif;color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent)}
+main{max-width:900px;margin:0 auto;padding:0 20px 60px}
+section{padding-top:44px}
+h2{font-size:26px;margin:0 0 14px;border-left:4px solid var(--accent);padding-left:12px}
+h3{font-size:19px;margin:24px 0 8px}
+p{margin:0 0 14px}
+ul,ol{padding-left:22px;margin:0 0 14px}li{margin-bottom:6px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0}
+.diagram{overflow-x:auto;text-align:center}
+.diagram pre{margin:0;background:none;font-family:system-ui,sans-serif}
+.tree{display:grid;grid-template-columns:1fr;gap:12px;font:15px/1.5 system-ui,sans-serif}
+@media(min-width:760px){.tree{grid-template-columns:1fr 1fr 1fr}}
+.tree>div{border-radius:12px;padding:14px;border:1px solid var(--line);background:var(--surface)}
+.tree .core{background:var(--soft);border-color:var(--accent);text-align:center;display:flex;flex-direction:column;justify-content:center}
+.tree h4{margin:0 0 8px;font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
+.tree ol{margin:0;padding-left:18px}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:15px/1.5 system-ui,sans-serif;background:var(--surface)}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:var(--soft)}
+.note{font:14px/1.5 system-ui,sans-serif;color:var(--muted)}
+footer{text-align:center;padding:30px 20px;color:var(--muted);font:14px system-ui,sans-serif;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header class="hero">
+  <small>Técnicas de Investigación · II-2026</small>
+  <h1>Análisis y diseño de un sistema de inventario para la farmacia familiar en La Paz, Bolivia, 2026</h1>
+  <p>Cruz Apaza Fernando Gael · Ingeniería Comercial</p>
+</header>
+<nav>
+  <a href="#introduccion">Introducción</a><a href="#antecedentes">Antecedentes</a><a href="#problema">Problema</a>
+  <a href="#arbol">Árbol de problemas</a><a href="#preguntas">Preguntas</a><a href="#objetivos">Objetivos</a>
+  <a href="#metodo">Método</a><a href="#ambiental">Modelo ambiental</a><a href="#comportamiento">Comportamiento</a>
+  <a href="#casos">Casos de uso</a><a href="#clases">Clases v1</a><a href="#gantt">Cronograma</a>
+</nav>
+<main>
+
+<section id="introduccion">
+  <h2>Introducción</h2>
+  <p>Una farmacia vive de saber qué tiene, cuánto tiene y hasta cuándo le sirve. En las farmacias familiares eso se complica cuando las herramientas informáticas son difíciles de usar y el personal termina llevando todo a mano.</p>
+  <p>Esta investigación parte de un caso concreto: una farmacia familiar de la ciudad de La Paz que no maneja bien su inventario. El control manual produce errores al registrar la mercadería y nadie sabe con certeza cuánto stock hay, así que cuesta detectar qué falta, qué sobra y qué está por vencerse. También fallan el control de precios, la facturación y el seguimiento de los laboratorios proveedores, y todo termina en pérdidas de dinero.</p>
+  <p>Por eso se propone el análisis y diseño de un sistema de inventario hecho a la medida de esta farmacia, con Análisis Estructurado y con Análisis y Diseño Orientado a Objetos en UML. La idea es simplificar el control, contar con datos confiables y mejorar el trabajo diario durante la gestión 2026.</p>
+</section>
+
+<section id="antecedentes">
+  <h2>Antecedentes</h2>
+  <p>En Bolivia, y sobre todo en La Paz, las farmacias minoristas suelen ser el primer lugar al que acude la gente cuando tiene un problema de salud. Aun así, la mayoría de las farmacias familiares sigue con una gestión tradicional que se queda corta ahora que el mercado crece y se exige más control.</p>
+  <p>Durante años el inventario se llevó de forma empírica, con cuadernos u hojas de cálculo que nadie actualizaba. Después llegaron los programas genéricos y los sistemas comerciales ya armados. En la farmacia estudiada, esos programas resultaron tener pantallas complicadas, un aprendizaje largo y poca flexibilidad para el trabajo real del personal.</p>
+  <p>Administradores y empleados dejaron de usarlos y volvieron al papel. Ese regreso es el antecedente directo del problema actual: se registran mal las entradas y salidas de medicamentos, se pierde el rastro del laboratorio que entregó cada producto, falla la facturación y crece el riesgo de acumular productos vencidos.</p>
+</section>
+
+<section id="problema">
+  <h2>Planteamiento del problema</h2>
+  <p>Administrar bien los productos farmacéuticos es indispensable para que un establecimiento de salud siga funcionando. La farmacia sí tiene un sistema informático, pero es tan complicado que el personal lo rechaza. Sin poder usarlo, la administración y los empleados hacen todo con métodos manuales, y esa dependencia deja consecuencias operativas y económicas:</p>
+  <ul>
+    <li>Errores de registro en las entradas y salidas de mercadería.</li>
+    <li>Falta de control de stock: no se sabe cuánto hay de cada producto ni qué está por vencer.</li>
+    <li>Pérdidas económicas por fallas en la facturación en línea y precios de venta desactualizados.</li>
+    <li>Falta de trazabilidad: no se puede rastrear de qué laboratorio viene cada producto.</li>
+  </ul>
+  <p>Como los métodos manuales hoy rinden más que la tecnología disponible y las pérdidas continúan, hace falta un sistema más simple que resuelva estas deficiencias desde la raíz.</p>
+</section>
+
+<section id="arbol">
+  <h2>Árbol de problemas</h2>
+  <div class="tree">
+    <div>
+      <h4>Efectos</h4>
+      <ol>
+        <li>Errores constantes al registrar a mano la entrada y salida de medicamentos.</li>
+        <li>Desconocimiento del stock real: lo que hay en físico no coincide con lo que se cree tener.</li>
+        <li>Riesgo de acumular medicamentos vencidos, porque no se controlan las fechas de expiración.</li>
+        <li>Fallas en la facturación en línea y en la actualización de precios.</li>
+        <li>Falta de trazabilidad de los laboratorios.</li>
+      </ol>
+    </div>
+    <div class="core">
+      <h4>Problema central</h4>
+      <strong>Mala gestión del inventario</strong>
+    </div>
+    <div>
+      <h4>Causas</h4>
+      <ol>
+        <li>El sistema actual tiene una interfaz y un manejo demasiado complicados.</li>
+        <li>El personal lo rechaza porque cuesta aprenderlo.</li>
+        <li>El control diario depende de cuadernos y anotaciones informales.</li>
+        <li>No hay un proceso automatizado que una compras, proveedores e inventario.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="preguntas">
+  <h2>Preguntas de investigación</h2>
+  <p><strong>Pregunta principal.</strong> ¿De qué manera un sistema de análisis y diseño optimizado permitirá mejorar la gestión de inventario en la farmacia familiar de La Paz durante la gestión 2026?</p>
+  <h3>Preguntas secundarias</h3>
+  <ul>
+    <li>¿Cómo influyen la complejidad del sistema actual y la dependencia de métodos manuales en los errores de registro?</li>
+    <li>¿Por qué la falta de un control automatizado de stock aumenta el riesgo de desconocer lo que hay y de acumular productos vencidos?</li>
+    <li>¿Qué fallas se presentan en la facturación en línea y en el control de precios?</li>
+    <li>¿Cómo afecta la falta de un registro estructurado a la trazabilidad de los laboratorios proveedores?</li>
+  </ul>
+</section>
+
+<section id="objetivos">
+  <h2>Objetivos</h2>
+  <p><strong>Objetivo general.</strong> Desarrollar el análisis y diseño de un sistema informático sencillo e intuitivo que mejore la gestión de inventario en la farmacia familiar de La Paz durante la gestión 2026, reemplace los procesos manuales y corrija las fallas del software anterior.</p>
+  <h3>Objetivos específicos</h3>
+  <ol>
+    <li>Analizar cómo trabaja hoy la farmacia, para identificar las causas exactas del rechazo al sistema anterior y de la dependencia de registros manuales.</li>
+    <li>Diseñar modelos estructurados y orientados a objetos (UML) que controlen de forma automática las entradas, salidas y existencias de medicamentos.</li>
+    <li>Establecer un módulo de control de fechas de expiración que evite acumular productos vencidos.</li>
+    <li>Incorporar requerimientos para mejorar la facturación en línea, la actualización de precios y la trazabilidad de los laboratorios.</li>
+  </ol>
+</section>
+
+<section id="metodo">
+  <h2>Método, medios e instrumentos</h2>
+  <h3>Tipo y enfoque</h3>
+  <p>El proyecto usa un enfoque mixto. La parte cualitativa busca entender por qué se rechazó el sistema anterior, qué dificultades tiene el personal y cómo funcionan hoy los procesos manuales. La parte cuantitativa mide cuántos errores de registro hay, cuánto tiempo se gasta en tareas manuales, con qué frecuencia aparecen productos vencidos y cuánto dinero se pierde por fallas en el inventario y la facturación.</p>
+  <h3>Población y muestra</h3>
+  <p>El estudio se concentra en la farmacia familiar y distingue dos roles según el acceso que tendrán en el futuro sistema: la propietaria, que administra con control total, visión financiera y poder de decisión, y el personal operativo, que hace las ventas y los registros diarios con un acceso más limitado.</p>
+  <h3>Recolección de datos</h3>
+  <ul>
+    <li>Entrevistas semiestructuradas a la propietaria, para conocer la operación diaria, lo que falló con el software anterior y cómo se controla a los laboratorios.</li>
+    <li>Guía de observación directa en el mostrador y en la trastienda, para ver cómo se hacen en la práctica los registros manuales, la facturación y el manejo físico del inventario.</li>
+  </ul>
+</section>
+
+<section id="ambiental">
+  <h2>Modelo ambiental</h2>
+  <p>El diagrama de contexto muestra el sistema como una sola burbuja y los flujos de datos que intercambia con quienes lo rodean.</p>
+  <div class="card diagram"><pre class="mermaid">
+flowchart LR
+  P([Propietaria])
+  E([Personal operativo])
+  L([Laboratorios proveedores])
+  C([Cliente])
+  F([Facturación en línea])
+  S((Sistema de inventario de la farmacia))
+  P -->|Altas de productos, precios, consultas| S
+  S -->|Reportes y alertas de vencimiento| P
+  E -->|Ventas e ingresos de mercadería| S
+  S -->|Stock disponible y comprobantes| E
+  L -->|Facturas de compra y lotes| S
+  S -->|Pedidos de reposición| L
+  C -->|Solicitud de producto| S
+  S -->|Producto y factura| C
+  S -->|Datos de la venta| F
+  F -->|Autorización de la factura| S
+  </pre></div>
+</section>
+
+<section id="comportamiento">
+  <h2>Modelo de comportamiento</h2>
+  <p>Se describe con una lista de eventos, con la respuesta que el sistema debe dar a cada uno, y con el ciclo de vida de un producto en el inventario.</p>
+  <h3>Eventos y respuestas</h3>
+  <div class="table-wrap"><table>
+    <tr><th>N.°</th><th>Evento</th><th>Respuesta del sistema</th></tr>
+    <tr><td>1</td><td>Llega mercadería de un laboratorio</td><td>Registra la compra, crea el lote con su fecha de vencimiento y suma las existencias.</td></tr>
+    <tr><td>2</td><td>Un cliente compra un producto</td><td>Registra la venta, descuenta del lote que vence primero y emite la factura.</td></tr>
+    <tr><td>3</td><td>Cambia el precio de un producto</td><td>Actualiza el precio de venta y guarda el valor anterior.</td></tr>
+    <tr><td>4</td><td>Un lote se acerca a su fecha de vencimiento</td><td>Genera una alerta para la propietaria y el personal.</td></tr>
+    <tr><td>5</td><td>Las existencias bajan del mínimo</td><td>Genera una alerta de reposición con el laboratorio que provee el producto.</td></tr>
+    <tr><td>6</td><td>Un lote vence</td><td>Lo marca como vencido y lo retira de las ventas.</td></tr>
+    <tr><td>7</td><td>La propietaria pide un reporte</td><td>Muestra stock, ventas, pérdidas y compras por laboratorio.</td></tr>
+  </table></div>
+  <h3>Ciclo de vida de un producto</h3>
+  <div class="card diagram"><pre class="mermaid">
+stateDiagram-v2
+  state "En stock" as EnStock
+  state "Stock bajo" as StockBajo
+  state "Por vencer" as PorVencer
+  [*] --> EnStock : Ingreso de lote
+  EnStock --> StockBajo : Existencias bajo el mínimo
+  StockBajo --> EnStock : Reposición
+  EnStock --> PorVencer : Fecha cercana
+  StockBajo --> PorVencer : Fecha cercana
+  PorVencer --> Vencido : Pasa la fecha
+  EnStock --> Agotado : Última unidad vendida
+  StockBajo --> Agotado : Última unidad vendida
+  PorVencer --> Agotado : Última unidad vendida
+  Agotado --> EnStock : Nuevo ingreso
+  Vencido --> [*] : Baja del inventario
+  </pre></div>
+</section>
+
+<section id="casos">
+  <h2>Diagrama de casos de uso</h2>
+  <p>La propietaria puede usar todas las funciones. El personal operativo accede solo a las de uso diario.</p>
+  <div class="card diagram"><pre class="mermaid">
+flowchart LR
+  P([Propietaria])
+  E([Personal operativo])
+  subgraph SIS[Sistema de inventario]
+    direction TB
+    U1(Iniciar sesión)
+    U2(Registrar venta)
+    U3(Emitir factura)
+    U4(Consultar stock)
+    U5(Registrar ingreso de mercadería)
+    U6(Controlar vencimientos)
+    U7(Gestionar productos)
+    U8(Actualizar precios)
+    U9(Gestionar laboratorios)
+    U10(Generar reportes)
+    U11(Gestionar usuarios)
+  end
+  E --- U1
+  E --- U2
+  E --- U3
+  E --- U4
+  E --- U5
+  P --- U1
+  P --- U4
+  P --- U5
+  P --- U6
+  P --- U7
+  P --- U8
+  P --- U9
+  P --- U10
+  P --- U11
+  U2 -.->|incluye| U3
+  U5 -.->|incluye| U6
+  </pre></div>
+</section>
+
+<section id="clases">
+  <h2>Diagrama de clases, versión 1</h2>
+  <p>Primera versión del modelo de objetos. Se afinará con las entrevistas y la observación en la farmacia.</p>
+  <div class="card diagram"><pre class="mermaid">
+classDiagram
+  class Usuario{
+    +int id
+    +String nombre
+    +String clave
+    +iniciarSesion()
+  }
+  class Propietaria
+  class PersonalOperativo
+  class Laboratorio{
+    +int id
+    +String nombre
+    +String telefono
+    +String nit
+  }
+  class Producto{
+    +int codigo
+    +String nombre
+    +String presentacion
+    +double precioVenta
+    +int stockMinimo
+    +actualizarPrecio()
+    +calcularStock()
+  }
+  class Lote{
+    +int idLote
+    +String numero
+    +Date fechaVencimiento
+    +int cantidad
+    +estaVencido()
+    +diasParaVencer()
+  }
+  class Compra{
+    +int id
+    +Date fecha
+    +double total
+    +registrar()
+  }
+  class DetalleCompra{
+    +int cantidad
+    +double costoUnitario
+  }
+  class Venta{
+    +int id
+    +Date fecha
+    +double total
+    +registrar()
+  }
+  class DetalleVenta{
+    +int cantidad
+    +double precioUnitario
+    +double subtotal
+  }
+  class Factura{
+    +String numero
+    +Date fecha
+    +String estado
+    +emitir()
+    +anular()
+  }
+  class Alerta{
+    +String tipo
+    +String mensaje
+    +Date fecha
+  }
+  Usuario &lt;|-- Propietaria
+  Usuario &lt;|-- PersonalOperativo
+  Laboratorio "1" --> "*" Producto : provee
+  Laboratorio "1" --> "*" Compra : entrega
+  Producto "1" *-- "*" Lote : tiene
+  Compra "1" *-- "*" DetalleCompra
+  DetalleCompra "*" --> "1" Lote : genera
+  Venta "1" *-- "*" DetalleVenta
+  DetalleVenta "*" --> "1" Producto : vende
+  Venta "1" --> "0..1" Factura : origina
+  Usuario "1" --> "*" Venta : registra
+  Usuario "1" --> "*" Compra : registra
+  Lote "1" --> "*" Alerta : dispara
+  </pre></div>
+</section>
+
+<section id="gantt">
+  <h2>Cronograma de actividades</h2>
+  <p>Las actividades se distribuyen en octubre de 2026.</p>
+  <div class="card diagram"><pre class="mermaid">
+gantt
+  dateFormat YYYY-MM-DD
+  axisFormat %d oct
+  title Cronograma, octubre de 2026
+  section Diagnóstico
+  Inicio y definición del problema central :a1, 2026-10-06, 1d
+  Visita y entrevistas preliminares al personal :a2, 2026-10-09, 1d
+  Entrevista a fondo con la propietaria :a3, 2026-10-15, 1d
+  section Diseño
+  Análisis y diseño, modelado UML :a4, 2026-10-22, 1d
+  section Entrega
+  Desarrollo y maquetación del blog :a5, 2026-10-26, 3d
+  Presentación oficial a la cátedra :milestone, a6, 2026-10-29, 1d
+  </pre></div>
+  <div class="table-wrap"><table>
+    <tr><th>Fecha</th><th>Actividad</th></tr>
+    <tr><td>6 de octubre</td><td>Inicio del proyecto. Se identifica y define el problema central.</td></tr>
+    <tr><td>9 de octubre</td><td>Visita a la farmacia y entrevistas preliminares a los empleados.</td></tr>
+    <tr><td>15 de octubre</td><td>Entrevista a fondo con la propietaria.</td></tr>
+    <tr><td>22 de octubre</td><td>Análisis y diseño: estructura documental, abstracción de datos y modelado UML.</td></tr>
+    <tr><td>26 al 28 de octubre</td><td>Desarrollo, diseño y maquetación del blog o sitio web.</td></tr>
+    <tr><td>29 de octubre</td><td>Presentación oficial del blog y sitio web a la cátedra.</td></tr>
+  </table></div>
+</section>
+
+</main>
+<footer>Análisis y diseño de un sistema de inventario · La Paz, Bolivia · 2026</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+(function () {
+  try {
+    var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'loose',
+      flowchart: { useMaxWidth: true, htmlLabels: true }, gantt: { useMaxWidth: true } });
+  } catch (e) { console.error('Mermaid no se pudo iniciar', e); }
+})();
+</script>
+
+<!--claude-mermaid-runtime-begin:3477-->
+<style>.mermaid-diagram{margin-block:4px}.mermaid-diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}</style>
+<script src="/_runtime/mermaid-11.16.1.min.js"></script>
+<script>(function(){
+var CFG={"palettes":{"light":{"surface":"#f4efe4","text":"#42392e","line":"#8a7f6d","border":"#7a6c52","bg":"#fffdf8"},"dark":{"surface":"#262b34","text":"#f2f3f5","line":"#a8adb8","border":"#9aa4b8","bg":"#1f232b"}}};
+if(typeof mermaid==='undefined')return;
+var pres=Array.prototype.slice.call(document.querySelectorAll('pre.mermaid')).filter(function(p){if(p.hasAttribute('data-claude-mermaid-claimed'))return false;p.setAttribute('data-claude-mermaid-claimed','1');return true;});
+if(!pres.length)return;
+var mq=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
+var root=document.documentElement;
+var items=pres.map(function(pre){
+var mount=document.createElement('div');mount.className='mermaid-diagram';
+return {pre:pre,mount:mount,src:pre.textContent||''};
+});
+var seq=0;
+var renderGen=0;
+var lastKey='';
+function pageBg(fallback){
+var els=[document.body,document.documentElement];
+for(var i=0;i<els.length;i++){
+var c=els[i]&&getComputedStyle(els[i]).backgroundColor;
+if(c&&c!=='transparent'&&c!=='rgba(0, 0, 0, 0)')return c;
+}
+return fallback;
+}
+function render(){
+var theme=root.getAttribute('data-theme');
+var dark=theme==='dark'||(!!(mq&&mq.matches)&&theme!=='light');
+var pal=dark?CFG.palettes.dark:CFG.palettes.light;
+var bg=pageBg(pal.bg);
+var key=(dark?'d':'l')+'|'+bg;
+if(key===lastKey)return;
+lastKey=key;
+var gen=++renderGen;
+var font=getComputedStyle(document.body).fontFamily||'sans-serif';
+var nat={useMaxWidth:false};
+mermaid.initialize({
+startOnLoad:false,securityLevel:'strict',theme:'base',
+flowchart:nat,sequence:nat,er:nat,state:nat,class:nat,pie:nat,
+gantt:nat,journey:nat,timeline:nat,gitGraph:nat,mindmap:nat,xyChart:nat,
+quadrantChart:nat,sankey:nat,c4:nat,requirement:nat,block:nat,
+packet:nat,kanban:nat,architecture:nat,radar:nat,
+themeVariables:{background:bg,mainBkg:pal.surface,primaryColor:pal.surface,
+primaryTextColor:pal.text,lineColor:pal.line,primaryBorderColor:pal.border,
+nodeBorder:pal.border,clusterBorder:pal.border,edgeLabelBackground:bg,
+clusterBkg:'rgba(127,127,127,0.07)',titleColor:pal.text,
+darkMode:dark,rowOdd:bg,rowEven:'rgba(127,127,127,0.07)',
+attributeBackgroundColorOdd:bg,attributeBackgroundColorEven:'rgba(127,127,127,0.07)',
+fontSize:'16px',fontFamily:font},
+themeCSS:'.node rect, .node circle, .node polygon, .node path, .cluster rect { stroke-width: 2px; }'
+});
+items.forEach(function(it){
+var id='claude-mermaid-'+seq++;
+mermaid.render(id,it.src).then(function(r){
+if(gen!==renderGen)return;
+var prev=it.pre.previousElementSibling;
+if(prev&&prev.className==='mermaid-diagram'&&prev!==it.mount)return;
+it.mount.innerHTML=r.svg;
+if(!it.mount.parentNode)it.pre.parentNode.insertBefore(it.mount,it.pre);
+it.pre.style.display='none';
+},function(){
+var scratch=document.getElementById(id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+scratch=document.getElementById('d'+id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+if(gen!==renderGen)return;
+if(it.mount.parentNode)it.mount.parentNode.removeChild(it.mount);
+it.pre.style.display='';
+});
+});
+}
+render();
+if(mq&&mq.addEventListener)mq.addEventListener('change',render);
+if(typeof MutationObserver!=='undefined')new MutationObserver(render).observe(root,{attributes:true,attributeFilter:['data-theme']});
+})();</script>
+<!--claude-mermaid-runtime-end-->
+</body>
+</html>

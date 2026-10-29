@@ -525,3 +525,110 @@ a{color:inherit;text-decoration:none}
   .stat{align-items:flex-start}
   .hero-content h1{font-size:34px}
 }
+
+/* ========================================================
+   Diagramas y Árbol de problemas
+   ======================================================== */
+.diagram-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 24px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+  text-align: center;
+}
+.diagram-card pre.mermaid {
+  margin: 0;
+  background: transparent;
+  font-family: inherit;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+.diagram-card .mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.tree {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 20px 0;
+}
+@media (min-width: 768px) {
+  .tree {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.tree > div {
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  background: white;
+  box-shadow: var(--shadow-sm);
+}
+.tree .core {
+  background: linear-gradient(135deg, var(--mint), #e6f4fd);
+  border-color: var(--green);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.tree .core strong {
+  font-size: 17px;
+  color: var(--ink);
+  margin-top: 6px;
+}
+.tree h4 {
+  margin: 0 0 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--green);
+  font-weight: 800;
+}
+.tree ol {
+  margin: 0;
+  padding-left: 18px;
+  color: #5f7a74;
+}
+.tree ol li {
+  margin-bottom: 8px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin: 18px 0;
+}
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.table-wrap th,
+.table-wrap td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.6;
+}
+.table-wrap th {
+  background: linear-gradient(135deg, #e6f7f4, #e6f4fd);
+  color: #2f6b60;
+  font-weight: 700;
+}
+.table-wrap tr:last-child td {
+  border-bottom: none;
+}

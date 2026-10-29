@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#0f766e">
     <title>Diagrama de clases | Farmacias Colque</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/mermaid.min.js"></script>
     <script defer src="../assets/js/site.js"></script>
 </head>
 <body>
@@ -17,45 +18,139 @@
         </div>
 
         <div class="page-heading">
-            <span class="eyebrow">ORIENTADO A OBJETOS &middot; 01</span>
-            <h1>Diagrama de clases UML</h1>
-            <p>Modelo conceptual de las principales clases del sistema y sus relaciones.</p>
+            <span class="eyebrow">ORIENTADO A OBJETOS · 01</span>
+            <h1>Diagrama de clases, versión 1</h1>
+            <p>Primera versión del modelo de objetos. Se afinará con las entrevistas y la observación en la farmacia.</p>
         </div>
 
+        <section class="panel panel-pad">
+            <h2>Modelo de clases UML</h2>
+            <p>Estructura de clases, atributos, métodos principales y relaciones del sistema de inventario:</p>
 
-            <div class="panel-image-container" style="margin-top: 30px; text-align: center;">
-                <img src="../assets/img/photo_2026-10-28_15-58-09.jpg" alt="Diagrama de clases detallado del sistema Farmacias Colque" class="featured-image" style="max-width: 100%; height: auto; border-radius: 8px;">
-            
+            <div class="diagram-card">
+                <pre class="mermaid">
+classDiagram
+  class Usuario{
+    +int id
+    +String nombre
+    +String clave
+    +iniciarSesion()
+  }
+  class Propietaria
+  class PersonalOperativo
+  class Laboratorio{
+    +int id
+    +String nombre
+    +String telefono
+    +String nit
+  }
+  class Producto{
+    +int codigo
+    +String nombre
+    +String presentacion
+    +double precioVenta
+    +int stockMinimo
+    +actualizarPrecio()
+    +calcularStock()
+  }
+  class Lote{
+    +int idLote
+    +String numero
+    +Date fechaVencimiento
+    +int cantidad
+    +estaVencido()
+    +diasParaVencer()
+  }
+  class Compra{
+    +int id
+    +Date fecha
+    +double total
+    +registrar()
+  }
+  class DetalleCompra{
+    +int cantidad
+    +double costoUnitario
+  }
+  class Venta{
+    +int id
+    +Date fecha
+    +double total
+    +registrar()
+  }
+  class DetalleVenta{
+    +int cantidad
+    +double precioUnitario
+    +double subtotal
+  }
+  class Factura{
+    +String numero
+    +Date fecha
+    +String estado
+    +emitir()
+    +anular()
+  }
+  class Alerta{
+    +String tipo
+    +String mensaje
+    +Date fecha
+  }
+  Usuario &lt;|-- Propietaria
+  Usuario &lt;|-- PersonalOperativo
+  Laboratorio "1" --> "*" Producto : provee
+  Laboratorio "1" --> "*" Compra : entrega
+  Producto "1" *-- "*" Lote : tiene
+  Compra "1" *-- "*" DetalleCompra
+  DetalleCompra "*" --> "1" Lote : genera
+  Venta "1" *-- "*" DetalleVenta
+  DetalleVenta "*" --> "1" Producto : vende
+  Venta "1" --> "0..1" Factura : origina
+  Usuario "1" --> "*" Venta : registra
+  Usuario "1" --> "*" Compra : registra
+  Lote "1" --> "*" Alerta : dispara
+                </pre>
+            </div>
 
-            <h2>Descripción de clases</h2>
-            <div class="table-scroll">
+            <h2>Descripción de entidades y responsabilidades</h2>
+            <div class="table-wrap">
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Clase</th>
-                            <th>Responsabilidad</th>
+                            <th style="width: 22%;">Clase</th>
+                            <th>Responsabilidad en el sistema</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Producto</td>
-                            <td>Conserva la información básica del artículo y su existencia.</td>
+                            <td><strong>Usuario</strong></td>
+                            <td>Clase base abstracta de autenticación y control de acceso (+iniciarSesion()). Especializada en <em>Propietaria</em> y <em>PersonalOperativo</em>.</td>
                         </tr>
                         <tr>
-                            <td>Inventario</td>
-                            <td>Consulta, actualiza y verifica el stock de productos.</td>
+                            <td><strong>Laboratorio</strong></td>
+                            <td>Representa a la empresa proveedora de medicamentos. Mantiene datos de contacto y NIT, proveyendo productos y entregando compras.</td>
                         </tr>
                         <tr>
-                            <td>Venta</td>
-                            <td>Representa una operación de venta y calcula el total.</td>
+                            <td><strong>Producto</strong></td>
+                            <td>Ficha maestra del medicamento (código, nombre, presentación, precio de venta y stock mínimo). Calcula existencias y actualiza precios.</td>
                         </tr>
                         <tr>
-                            <td>DetalleVenta</td>
-                            <td>Registra cada producto, cantidad, precio y subtotal de una venta.</td>
+                            <td><strong>Lote</strong></td>
+                            <td>Representa una partida de producto con número de serie, fecha de expiración y cantidad. Permite controlar vencimientos (+estaVencido(), +diasParaVencer()).</td>
                         </tr>
                         <tr>
-                            <td>Usuario</td>
-                            <td>Representa al personal que utilizaría el sistema en una versión con autenticación.</td>
+                            <td><strong>Compra / DetalleCompra</strong></td>
+                            <td>Registra la adquisición de mercadería a los laboratorios, calculando el costo total y generando los lotes correspondientes en inventario.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Venta / DetalleVenta</strong></td>
+                            <td>Registra las transacciones de mostrador, descuenta existencias según método FEFO (primero en expirar, primero en salir) y calcula subtotales y total.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Factura</strong></td>
+                            <td>Gestiona el documento fiscal tributario enlazado a la venta (+emitir(), +anular()) para la facturación en línea.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alerta</strong></td>
+                            <td>Genera notificaciones automáticas ante fechas cercanas de vencimiento o niveles de existencias por debajo del stock mínimo.</td>
                         </tr>
                     </tbody>
                 </table>

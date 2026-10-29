@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#0f766e">
     <title>Diagrama de casos de uso | Farmacias Colque</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/mermaid.min.js"></script>
     <script defer src="../assets/js/site.js"></script>
 </head>
 <body>
@@ -17,43 +18,101 @@
         </div>
 
         <div class="page-heading">
-            <span class="eyebrow">ORIENTADO A OBJETOS &middot; 02</span>
+            <span class="eyebrow">ORIENTADO A OBJETOS · 02</span>
             <h1>Diagrama de casos de uso</h1>
-            <p>Identifica actores y las funciones que pueden ejecutar dentro del sistema.</p>
+            <p>La propietaria puede usar todas las funciones. El personal operativo accede solo a las de uso diario.</p>
         </div>
 
+        <section class="panel panel-pad">
+            <h2>Diagrama de casos de uso</h2>
+            <p>Representación visual de los actores del sistema y los casos de uso a los que cada uno tiene autorización de acceso:</p>
 
-  
-            <div class="panel-image-container" style="margin-top: 30px; text-align: center;">
-                <img src="../assets/img/image.png" alt="Diagrama de casos de uso detallado de Farmacias Colque" class="featured-image" style="max-width: 100%; height: auto; border-radius: 8px;">
-                <p class="image-caption" style="margin-top: 10px; font-size: 0.9rem; color: #617a70;">Vista ampliada del diagrama de casos de uso y actores del sistema.</p>
+            <div class="diagram-card">
+                <pre class="mermaid">
+flowchart LR
+  P([Propietaria])
+  E([Personal operativo])
+  subgraph SIS[Sistema de inventario]
+    direction TB
+    U1(Iniciar sesión)
+    U2(Registrar venta)
+    U3(Emitir factura)
+    U4(Consultar stock)
+    U5(Registrar ingreso de mercadería)
+    U6(Controlar vencimientos)
+    U7(Gestionar productos)
+    U8(Actualizar precios)
+    U9(Gestionar laboratorios)
+    U10(Generar reportes)
+    U11(Gestionar usuarios)
+  end
+  E --- U1
+  E --- U2
+  E --- U3
+  E --- U4
+  E --- U5
+  P --- U1
+  P --- U4
+  P --- U5
+  P --- U6
+  P --- U7
+  P --- U8
+  P --- U9
+  P --- U10
+  P --- U11
+  U2 -.->|incluye| U3
+  U5 -.->|incluye| U6
+                </pre>
             </div>
 
-            <h2>DIAGRAMA</h2>
-            <div class="table-scroll">
+            <h2>Actores y descripción de casos de uso</h2>
+            <div class="table-wrap">
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Actor</th>
-                            <th>Casos de uso</th>
+                            <th style="width: 25%;">Actor</th>
+                            <th>Casos de uso asignados</th>
+                            <th>Nivel de responsabilidad</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Encargado de farmacia</td>
-                            <td>Consultar productos, registrar ventas, consultar existencias y revisar alertas.</td>
+                            <td><strong>Propietaria</strong></td>
+                            <td>
+                                <ul>
+                                    <li>Iniciar sesión</li>
+                                    <li>Consultar stock</li>
+                                    <li>Registrar ingreso de mercadería (incluye Controlar vencimientos)</li>
+                                    <li>Gestionar productos (altas, bajas, modificaciones)</li>
+                                    <li>Actualizar precios de venta</li>
+                                    <li>Gestionar laboratorios proveedores</li>
+                                    <li>Generar reportes (stock, ventas, pérdidas y compras)</li>
+                                    <li>Gestionar usuarios y permisos</li>
+                                </ul>
+                            </td>
+                            <td>Acceso total de administración, supervisión financiera, auditoría de existencias y control estratégico del negocio.</td>
                         </tr>
                         <tr>
-                            <td>Administrador</td>
-                            <td>Consultar inventario, reponer existencias y revisar resúmenes.</td>
-                        </tr>
-                        <tr>
-                            <td>Cliente (actor indirecto)</td>
-                            <td>Solicita productos y recibe el detalle de compra; no opera directamente el prototipo.</td>
+                            <td><strong>Personal operativo</strong></td>
+                            <td>
+                                <ul>
+                                    <li>Iniciar sesión</li>
+                                    <li>Registrar venta (incluye Emitir factura en línea)</li>
+                                    <li>Consultar stock en tiempo real</li>
+                                    <li>Registrar ingreso de mercadería</li>
+                                </ul>
+                            </td>
+                            <td>Acceso operativo restringido a transacciones diarias en mostrador y recepción física de fármacos en almacén.</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
+            <h2>Relaciones de inclusión (&laquo;include&raquo;)</h2>
+            <ul>
+                <li><strong>Registrar venta &rarr; Emitir factura:</strong> Toda venta completada en mostrador requiere la emisión y validación electrónica de la factura correspondiente.</li>
+                <li><strong>Registrar ingreso de mercadería &rarr; Controlar vencimientos:</strong> Cada ingreso de compra exige el registro detallado del lote y su fecha de expiración para activar la trazabilidad y alertas.</li>
+            </ul>
         </section>
     </main>
 

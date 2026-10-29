@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#0f766e">
     <title>Modelo ambiental | Farmacias Colque</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/mermaid.min.js"></script>
     <script defer src="../assets/js/site.js"></script>
 </head>
 <body>
@@ -20,60 +21,74 @@
         <div class="page-heading">
             <span class="eyebrow">ANÁLISIS ESTRUCTURADO · 01</span>
             <h1>Modelo ambiental</h1>
-            <p>El modelo ambiental identifica el contexto y las interacciones externas del Sistema de Control de Inventarios y Punto de Venta.</p>
+            <p>El diagrama de contexto muestra el sistema como una sola burbuja y los flujos de datos que intercambia con quienes lo rodean.</p>
         </div>
 
         <section class="panel panel-pad">
             <h2>Diagrama de contexto</h2>
-            
+            <p>Representación de las interfaces externas y flujos de información bidireccionales entre el sistema central de inventario y los actores del entorno:</p>
 
-            <div class="panel-image-container" style="margin-top: 30px; text-align: center;">
-                <img src="../assets/img/photo_2026-10-28_16-16-06.jpg" alt="Diagrama del modelo ambiental del sistema Farmacias Colque" class="featured-image" style="max-width: 100%; height: auto; border-radius: 8px;">
-</p>
+            <div class="diagram-card">
+                <pre class="mermaid">
+flowchart LR
+  P([Propietaria])
+  E([Personal operativo])
+  L([Laboratorios proveedores])
+  C([Cliente])
+  F([Facturación en línea])
+  S((Sistema de inventario de la farmacia))
+  P -->|Altas de productos, precios, consultas| S
+  S -->|Reportes y alertas de vencimiento| P
+  E -->|Ventas e ingresos de mercadería| S
+  S -->|Stock disponible y comprobantes| E
+  L -->|Facturas de compra y lotes| S
+  S -->|Pedidos de reposición| L
+  C -->|Solicitud de producto| S
+  S -->|Producto y factura| C
+  S -->|Datos de la venta| F
+  F -->|Autorización de la factura| S
+                </pre>
             </div>
 
-            <h2>Entidades externas</h2>
-            <div class="table-scroll">
+            <h2>Descripción de entidades externas y flujos</h2>
+            <div class="table-wrap">
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Entidad</th>
-                            <th>Información que proporciona</th>
-                            <th>Información que recibe</th>
+                            <th style="width: 25%;">Entidad externa</th>
+                            <th>Flujos enviados al sistema</th>
+                            <th>Flujos recibidos desde el sistema</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Encargado</td>
-                            <td>Datos de productos, ventas y reposición.</td>
-                            <td>Existencias, totales y alertas.</td>
+                            <td><strong>Propietaria</strong></td>
+                            <td>Altas de nuevos productos, actualización de precios y consultas directas.</td>
+                            <td>Reportes consolidados de existencias, ventas y alertas automáticas de vencimiento.</td>
                         </tr>
                         <tr>
-                            <td>Cliente</td>
-                            <td>Solicitud de compra.</td>
-                            <td>Detalle y total de la venta.</td>
+                            <td><strong>Personal operativo</strong></td>
+                            <td>Registro de ventas diarias e ingreso físico de nueva mercadería al almacén.</td>
+                            <td>Consulta de stock disponible en tiempo real y emisión de comprobantes.</td>
                         </tr>
                         <tr>
-                            <td>Proveedor</td>
-                            <td>Productos y datos de abastecimiento.</td>
-                            <td>Solicitud de reposición (fuera del prototipo).</td>
+                            <td><strong>Laboratorios proveedores</strong></td>
+                            <td>Facturas de compra, guías de despacho y asignación de lotes con fechas de expiración.</td>
+                            <td>Pedidos formales de reposición basados en niveles de stock mínimo.</td>
                         </tr>
                         <tr>
-                            <td>Administrador</td>
-                            <td>Parámetros y mantenimiento de catálogo.</td>
-                            <td>Resumen del inventario.</td>
+                            <td><strong>Cliente</strong></td>
+                            <td>Solicitud de compra y consulta de medicamentos.</td>
+                            <td>Entrega del producto solicitado y factura debidamente autorizada.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Facturación en línea</strong></td>
+                            <td>Autorización electrónica y validación tributaria de la factura en tiempo real.</td>
+                            <td>Datos detallados de la venta y montos fiscales para procesamiento fiscal.</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
-            <h2>Eventos principales</h2>
-            <ul>
-                <li>Consultar un producto o categoría.</li>
-                <li>Solicitar una venta y confirmar cantidades.</li>
-                <li>Registrar la venta y actualizar existencias.</li>
-                <li>Consultar alertas o reponer productos.</li>
-            </ul>
         </section>
     </main>
 
