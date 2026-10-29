@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0f766e">
+    <title>Modelo ambiental | Farmacias Colque</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script defer src="../assets/js/site.js"></script>
+</head>
+<body>
+    <div data-site-header></div>
+
+    <main class="page-wrap">
+
+        <div class="crumb">
+            <a href="index.html">Análisis estructurado</a> / Modelo ambiental
+        </div>
+
+        <div class="page-heading">
+            <span class="eyebrow">ANÁLISIS ESTRUCTURADO · 01</span>
+            <h1>Modelo ambiental</h1>
+            <p>El modelo ambiental identifica el contexto y las interacciones externas del Sistema de Control de Inventarios y Punto de Venta.</p>
+        </div>
+
+        <section class="panel panel-pad">
+            <h2>Diagrama de contexto</h2>
+            
+
+            <div class="panel-image-container" style="margin-top: 30px; text-align: center;">
+                <img src="../assets/img/photo_2026-10-28_16-16-06.jpg" alt="Diagrama del modelo ambiental del sistema Farmacias Colque" class="featured-image" style="max-width: 100%; height: auto; border-radius: 8px;">
+</p>
+            </div>
+
+            <h2>Entidades externas</h2>
+            <div class="table-scroll">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Entidad</th>
+                            <th>Información que proporciona</th>
+                            <th>Información que recibe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Encargado</td>
+                            <td>Datos de productos, ventas y reposición.</td>
+                            <td>Existencias, totales y alertas.</td>
+                        </tr>
+                        <tr>
+                            <td>Cliente</td>
+                            <td>Solicitud de compra.</td>
+                            <td>Detalle y total de la venta.</td>
+                        </tr>
+                        <tr>
+                            <td>Proveedor</td>
+                            <td>Productos y datos de abastecimiento.</td>
+                            <td>Solicitud de reposición (fuera del prototipo).</td>
+                        </tr>
+                        <tr>
+                            <td>Administrador</td>
+                            <td>Parámetros y mantenimiento de catálogo.</td>
+                            <td>Resumen del inventario.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>Eventos principales</h2>
+            <ul>
+                <li>Consultar un producto o categoría.</li>
+                <li>Solicitar una venta y confirmar cantidades.</li>
+                <li>Registrar la venta y actualizar existencias.</li>
+                <li>Consultar alertas o reponer productos.</li>
+            </ul>
+        </section>
+    </main>
+
+    <div data-site-footer></div>
+</body>
+</html>

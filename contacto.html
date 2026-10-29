@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0f766e">
+    <title>Contacto | Farmacias Colque</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script defer src="assets/js/site.js"></script>
+</head>
+<body>
+    <div data-site-header></div>
+
+    <main class="page-wrap">
+        <div class="page-heading">
+            <span class="eyebrow">COMUNICACIÓN</span>
+            <h1>Contacto</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</p>
+        </div>
+
+        <div class="contact-grid">
+            <section class="panel panel-pad">
+                <h2>Envíanos un mensaje</h2>
+                <p>Completa los campos.</p>
+                
+                <form id="contact-form" class="contact-form">
+                    <label>
+                        Nombre completo
+                        <input name="nombre" required placeholder="Tu nombre">
+                    </label>
+                    <label>
+                        Correo electrónico
+                        <input type="email" name="correo" required placeholder="correo@ejemplo.com">
+                    </label>
+                    <label>
+                        Asunto
+                        <select name="asunto">
+                            <option>Consulta general</option>
+                            <option>Información del sistema</option>
+                            <option>Soporte técnico</option>
+                            <option>Otro</option>
+                        </select>
+                    </label>
+                    <label>
+                        Mensaje
+                        <textarea name="mensaje" rows="5" required placeholder="Escribe tu consulta..."></textarea>
+                    </label>
+                    
+                    <button class="button primary" type="submit">Validar mensaje &rarr;</button>
+                    <p id="contact-result" class="contact-result" role="status"></p>
+                </form>
+            </section>
+
+            <aside class="panel panel-pad contact-aside">
+                <div class="contact-symbol">+</div>
+                <h2>Farmacias Colque</h2>
+                <p class="muted">Tu salud, nuestra prioridad.</p>
+                
+                <div class="contact-detail">
+                    <span>O</span>
+                    <div>
+                        <b>Ubicación</b>
+                        <p>La Paz - Bolivia.</p>
+                    </div>
+                </div>
+                
+                <div class="contact-detail">
+                    <span>L</span>
+                    <div>
+                        <b>Horario</b>
+                        <p>Lunes a sábado  08:00 a 21:00 .</p>
+                    </div>
+                </div>
+                
+                <div class="contact-detail">
+                    <span>@</span>
+                    <div>
+                        <b>Correo electrónico</b>
+                        <p>FamarciasC@gmail.com</p>
+                    </div>
+                </div>              
+            </aside>
+        </div>
+    </main>
+
+    <div data-site-footer></div>
+</body>
+</html>

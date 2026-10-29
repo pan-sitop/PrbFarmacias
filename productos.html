@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0f766e">
+    <title>Productos y punto de venta | Farmacias Colque</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script defer src="assets/js/site.js"></script>
+</head>
+<body>
+    <div data-site-header></div>
+
+    <main class="page-wrap">
+        <div class="page-heading">
+            <span class="eyebrow">CATÁLOGO Y VENTAS</span>
+            <h1>Productos y punto de venta</h1>
+            <p>Añade unidades al carrito y registra una venta de demostración. Los precios están expresados en bolivianos (Bs).</p>
+        </div>
+
+        <div class="catalog-layout">
+
+            <section class="panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Catálogo</h2>
+                        <p>Busca por nombre o filtra por categoría.</p>
+                    </div>
+                    <span class="pill" id="product-count">14 productos</span>
+                </div>
+
+                <div class="filters">
+                    <label class="search-box">
+                        <span>Q</span>
+                        <input id="product-search" type="search" placeholder="Buscar producto o laboratorio...">
+                    </label>
+                    <select id="category-filter" aria-label="Filtrar categoría">
+                        <option value="Todos">Todas las categorías</option>
+                    </select>
+                </div>
+
+                <div class="product-grid" id="product-grid">
+                </div>
+            </section>
+
+            <aside class="panel cart-panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>Tu venta</h2>
+                        <p id="cart-count">0 unidades</p>
+                    </div>
+                    <span class="pill">Carrito</span>
+                </div>
+
+                <div id="cart-items" class="cart-items">
+                    <div class="empty">El carrito está vacío.</div>
+                </div>
+
+                <div class="cart-bottom">
+                    <div class="total-row">
+                        <span>Total de la venta</span>
+                        <strong id="cart-total">Bs 0,00</strong>
+                    </div>
+                    <button id="checkout" class="button primary full" disabled>Registrar venta &rarr;</button>
+                    <button id="clear-cart" class="button full" style="background:#f1f6f3;color:#617a70;margin-top:8px">Vaciar carrito</button>               
+
+                <p id="sale-message" class="message" role="status" aria-live="polite"></p>
+            </aside>
+        </div>
+    </main>
+
+    <div data-site-footer></div>
+</body>
+</html>

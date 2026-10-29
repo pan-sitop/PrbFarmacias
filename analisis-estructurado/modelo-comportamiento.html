@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0f766e">
+    <title>Modelo de comportamiento | Farmacias Colque</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script defer src="../assets/js/site.js"></script>
+</head>
+<body>
+    <div data-site-header></div>
+
+    <main class="page-wrap">
+        <div class="crumb">
+            <a href="index.html">Análisis estructurado</a> / Modelo de comportamiento
+        </div>
+
+        <div class="page-heading">
+            <span class="eyebrow">ANÁLISIS ESTRUCTURADO · 02</span>
+            <h1>Modelo de comportamiento</h1>
+            <p>Describe la secuencia básica de procesos y los datos que circulan entre las operaciones principales.</p>
+        </div>
+
+            <div class="panel-image-container" style="margin-top: 30px; text-align: center;">
+                <img src="../assets/img/modelo-comportamiento.jpg" alt="Diagrama del modelo de comportamiento del sistema Farmacias Colque" class="featured-image" style="max-width: 100%; height: auto; border-radius: 8px;">
+                <p class="image-caption" style="margin-top: 10px; font-size: 0.9rem; color: #617a70;">Diagrama de flujo de datos (DFD) y comportamiento detallado del sistema.</p>
+            </div>
+
+            <h2>Procesos, entradas y salidas</h2>
+            <div class="table-scroll">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Proceso</th>
+                            <th>Entrada</th>
+                            <th>Salida</th>
+                            <th>Regla</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Consultar catálogo</td>
+                            <td>Texto de búsqueda y categoría.</td>
+                            <td>Lista filtrada.</td>
+                            <td>Mostrar coincidencias.</td>
+                        </tr>
+                        <tr>
+                            <td>Validar stock</td>
+                            <td>Producto y cantidad solicitada.</td>
+                            <td>Disponible / no disponible.</td>
+                            <td>La cantidad no supera las existencias.</td>
+                        </tr>
+                        <tr>
+                            <td>Calcular venta</td>
+                            <td>Precio y cantidad por artículo.</td>
+                            <td>Total de venta.</td>
+                            <td>Total = suma de precio &times; cantidad.</td>
+                        </tr>
+                        <tr>
+                            <td>Actualizar inventario</td>
+                            <td>Venta confirmada.</td>
+                            <td>Nuevo stock.</td>
+                            <td>Stock nuevo = stock anterior &minus; unidades vendidas.</td>
+                        </tr>
+                        <tr>
+                            <td>Generar alertas</td>
+                            <td>Stock actual y mínimo.</td>
+                            <td>Estado del producto.</td>
+                            <td>Agotado si stock &le; 0; bajo si stock &le; mínimo.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+    </main>
+
+    <div data-site-footer></div>
+</body>
+</html>
